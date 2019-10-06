@@ -17,5 +17,8 @@ namespace DeadOrAlive
 
         [DynamoDBProperty("CHANGE_TIME")]
         public string ChamgeTime { get; set; }
+
+        [DynamoDBProperty("SERVICE_NAME")]
+        public string ServiceName { get; set; }
     }
 }

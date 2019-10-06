@@ -6,7 +6,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.Core" Version="1.1.0" />
-    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.5.0" />
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.6.0" />
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.101.72" />
+    <PackageReference Include="CoreTweet" Version="1.0.0.483" />
   </ItemGroup>
 </Project>
