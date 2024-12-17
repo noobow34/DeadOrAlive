@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Lambda.Core;
+using Line.Messaging;
 using SocialOpinionAPI.Core;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -66,19 +66,16 @@ namespace DeadOrAlive
         }
 
         /// <summary>
-        /// LINE Notify‚É’Ê’m‚·‚é
+        /// LINE bot‚É’Ê’m‚·‚é
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
         private async Task PushLineNotifyAsync(string message)
         {
-            var content = new FormUrlEncodedContent(new Dictionary<string, string>
-            {
-                { "message", message }
-            });
-
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Environment.GetEnvironmentVariable("LINE_TOKEN"));
-            _ = await httpClient.PostAsync("https://notify-api.line.me/api/notify", content);
+            string channelAccessToken = Environment.GetEnvironmentVariable("LINE_ACCESS_TOKEN");
+            string myUserId = Environment.GetEnvironmentVariable("MY_USER_ID");
+            var client = new LineMessagingClient(channelAccessToken);
+            await client.PushMessageAsync(myUserId, new List<ISendMessage>() { new TextMessage(message) });
         }
 
         /// <summary>
