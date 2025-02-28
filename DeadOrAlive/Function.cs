@@ -36,7 +36,7 @@ namespace DeadOrAlive
                 HttpResponseMessage response = null;
                 try
                 {
-                    response = await httpClient.GetAsync(monitor.Url, HttpCompletionOption.ResponseHeadersRead);
+                    response = await httpClient.PostAsync(monitor.Url, new StringContent(string.Empty));
                     context.Logger.LogLine($"Status:{response.StatusCode}");
                 }
                 catch
