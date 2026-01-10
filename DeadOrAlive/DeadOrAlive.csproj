@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <AWSProjectType>Lambda</AWSProjectType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Amazon.Lambda.Core" Version="2.5.0" />
+    <PackageReference Include="Amazon.Lambda.Core" Version="2.8.0" />
     <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="2.2.4" />
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.404.13" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="4.0.10.7" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SocialOpinion-Public\SocialOpinionAPI\SocialOpinionAPI.csproj" />
