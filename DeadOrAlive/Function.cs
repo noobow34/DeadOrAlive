@@ -1,14 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Lambda.Core;
 using SocialOpinionAPI.Core;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -73,12 +74,26 @@ namespace DeadOrAlive
         /// <returns></returns>
         private async Task PostToSlackAsync(string message)
         {
-            using HttpClient client = new();
-            var webhookUrl = Environment.GetEnvironmentVariable("WEBHOOK");
-            var payload = new { text = message };
+            var token = Environment.GetEnvironmentVariable("SLACK_BOT_TOKEN");
+            var channelId = Environment.GetEnvironmentVariable("SLACK_CHANNEL");
+
+            var payload = new
+            {
+                channel = channelId,
+                text = message
+            };
+
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", token);
+
             var json = JsonSerializer.Serialize(payload);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            _ = await client.PostAsync(webhookUrl, content);
+
+            var response = await client.PostAsync(
+                "https://slack.com/api/chat.postMessage",
+                content
+            );
         }
 
         /// <summary>
